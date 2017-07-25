@@ -9,7 +9,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 static int InstanceCount = 0;
-static const int InstanceToBreak = 0; // DISABLED
+static const int InstanceToBreak = 1; // raise Error in first invokation
+                                      // of llvm::getOpenFileImpl()
 
 bool TurnInstanceIntoError() {
   return ++InstanceCount == InstanceToBreak;
