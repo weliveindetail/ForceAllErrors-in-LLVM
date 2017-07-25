@@ -25,6 +25,12 @@ message(STATUS "System: ${OS_NAME}")
 
 add_executable(ForceAllErrors
     ForceAllErrors.cpp
+
+    # LLVM source files for test
+    llvm/Object/Binary.h
+    llvm/Object/Binary.cpp
+    llvm/Support/MemoryBuffer.h
+    llvm/Support/MemoryBuffer.cpp
 )
 
 set_target_properties(ForceAllErrors PROPERTIES
