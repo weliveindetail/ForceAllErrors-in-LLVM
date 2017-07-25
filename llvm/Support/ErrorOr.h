@@ -22,6 +22,8 @@
 #include <system_error>
 #include <type_traits>
 
+extern bool TurnInstanceIntoError();
+
 namespace llvm {
 /// \brief Stores a reference that can be changed.
 template <typename T>
@@ -98,6 +100,12 @@ public:
           typename std::enable_if<std::is_convertible<OtherT, T>::value>::type
               * = nullptr)
       : HasError(false) {
+    if (TurnInstanceIntoError()) {
+      HasError = true;
+      new (getErrorStorage()) std::error_code(-1, std::generic_category());
+      return;
+    }
+
     new (getStorage()) storage_type(std::forward<OtherT>(Val));
   }
 

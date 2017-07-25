@@ -37,6 +37,8 @@
 #include <utility>
 #include <vector>
 
+extern bool TurnInstanceIntoError();
+
 namespace llvm {
 
 class ErrorSuccess;
@@ -622,6 +624,8 @@ private:
   Error *Err;
 };
 
+static std::unique_ptr<ErrorInfoBase> mockError();
+
 /// Tagged union holding either a T or a Error.
 ///
 /// This class parallels ErrorOr, but replaces error_code with Error. Since
@@ -675,6 +679,12 @@ public:
         , Unchecked(true)
 #endif
   {
+    if (TurnInstanceIntoError()) {
+      HasError = true;
+      new (getErrorStorage()) error_type(mockError());
+      return;
+    }
+
     new (getStorage()) storage_type(std::forward<OtherT>(Val));
   }
 
@@ -930,6 +940,10 @@ private:
   std::string Msg;
   std::error_code EC;
 };
+
+static inline std::unique_ptr<llvm::ErrorInfoBase> mockError() {
+  return std::make_unique<llvm::StringError>("Mocked Error", std::error_code(9, std::system_category()));
+}
 
 /// Helper for check-and-exit error handling.
 ///

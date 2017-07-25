@@ -1,8 +1,19 @@
+// Include modified error headers first, so we never get the original ones
+#include <llvm/Support/Error.h>
+#include <llvm/Support/ErrorOr.h>
+
 #include <llvm/Object/Binary.h>
 #include <llvm/Support/CommandLine.h>
 #include <llvm/Support/PrettyStackTrace.h>
 #include <llvm/Support/Signals.h>
 #include <llvm/Support/raw_ostream.h>
+
+static int InstanceCount = 0;
+static const int InstanceToBreak = 0; // DISABLED
+
+bool TurnInstanceIntoError() {
+  return ++InstanceCount == InstanceToBreak;
+}
 
 int main(int argc, char **argv) {
   using namespace llvm;
@@ -31,6 +42,9 @@ int main(int argc, char **argv) {
 
     outs() << bin->getBinary()->getType() << "\n";
   }
+
+  outs() << "\n\n------------------------------------------------------\n\n";
+  outs() << "Total instances: " << InstanceCount << "\n\n";
 
   outs().flush();
   return 0;
