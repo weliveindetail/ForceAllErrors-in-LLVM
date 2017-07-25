@@ -26,6 +26,10 @@ message(STATUS "System: ${OS_NAME}")
 add_executable(ForceAllErrors
     ForceAllErrors.cpp
 
+    # LLVM source files to enable testing
+    llvm/Support/Error.h
+    llvm/Support/ErrorOr.h
+
     # LLVM source files for test
     llvm/Object/Binary.h
     llvm/Object/Binary.cpp
