@@ -9,8 +9,8 @@
 #include <llvm/Support/raw_ostream.h>
 
 static int InstanceCount = 0;
-static const int InstanceToBreak = 3; // raise Error in second invokation
-                                      // of llvm::getOpenFileImpl()
+static const int InstanceToBreak = 4; // raise Error in second invokation
+                                      // of llvm::object::createBinary()
 
 bool TurnInstanceIntoError() {
   return ++InstanceCount == InstanceToBreak;
