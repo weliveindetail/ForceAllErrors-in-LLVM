@@ -11,11 +11,19 @@ add_executable(TestForceAllErrors
     TestDriver.cpp
 
     # unmodified LLVM source files for test
-    ../llvm/Object/Binary.h
-    ../llvm/Support/MemoryBuffer.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/Archive.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/Binary.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachO.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachOUniversal.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/ObjectFile.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Support/MemoryBuffer.h
 
-    ../llvm/Object/Binary.cpp
-    ../llvm/Support/MemoryBuffer.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/Archive.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/Binary.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOObjectFile.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOUniversal.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/ObjectFile.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Support/MemoryBuffer.cpp
 )
 
 set_target_properties(TestForceAllErrors PROPERTIES
