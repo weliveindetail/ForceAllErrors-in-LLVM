@@ -210,10 +210,13 @@ static void parseHeader(const MachOObjectFile &Obj, T &Header,
                          "file");
     return;
   }
+
   if (auto HeaderOrErr = getStructOrErr<T>(Obj, getPtr(Obj, 0)))
     Header = *HeaderOrErr;
-  else
+  else {
     Err = HeaderOrErr.takeError();
+    int i = *((int*)0);
+  }
 }
 
 // This is used to check for overlapping of Mach-O elements.
@@ -1126,6 +1129,7 @@ MachOObjectFile::MachOObjectFile(MemoryBufferRef Object, bool IsLittleEndian,
       Load = *LoadOrErr;
     else {
       Err = LoadOrErr.takeError();
+      int i = *((int*)0);
       return;
     }
   }
