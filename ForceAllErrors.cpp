@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   // Parse -debug and -debug-only options.
   cl::ParseCommandLineOptions(argc, argv, "ForceAllErrors tool\n");
 
-  // Handle error case correct
+  //* Handle error case correct
   {
     Expected<OwningBinary<Binary>> bin = createBinary(argv[0]);
     if (!bin)
@@ -33,8 +33,9 @@ int main(int argc, char **argv) {
     else
       outs() << bin->getBinary()->getFileName() << "\n";
   }
+  //*/
 
-  // Handle error case incorrect
+  /* Handle error case incorrect
   {
     Expected<OwningBinary<Binary>> bin = createBinary(argv[0]);
     if (!bin)
@@ -42,6 +43,7 @@ int main(int argc, char **argv) {
 
     outs() << bin->getBinary()->getType() << "\n";
   }
+  //*/
 
   outs() << "\n\n------------------------------------------------------\n\n";
   outs() << "Total instances: " << InstanceCount << "\n\n";
