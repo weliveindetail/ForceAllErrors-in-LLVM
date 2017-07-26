@@ -17,7 +17,6 @@ add_executable(TestForceAllErrors
     # unmodified LLVM source files for test
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/Archive.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/Binary.h
-    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachO.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachOUniversal.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/ObjectFile.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Support/GlobPattern.h
@@ -25,11 +24,17 @@ add_executable(TestForceAllErrors
 
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/Archive.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/Binary.cpp
-    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOObjectFile.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOUniversal.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/ObjectFile.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Support/GlobPattern.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Support/MemoryBuffer.cpp
+
+    #${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachO.h
+    #${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOObjectFile.cpp
+
+    # use these for demo errors on release_40
+    ../llvm/Object/MachO.h
+    ../llvm/Object/MachOObjectFile.cpp
 )
 
 set_target_properties(TestForceAllErrors PROPERTIES
