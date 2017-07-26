@@ -6,9 +6,6 @@ cmake_policy(SET CMP0053 NEW) # simplify variable reference and escape sequence 
 
 project(ForceAllErrors VERSION 1.0 LANGUAGES CXX)
 
-message("")
-message("Dependencies")
-
 if(WIN32)
     set(OS_NAME "Win")
     set(DISABLE_RTTI_FLAG /GR-)
@@ -23,18 +20,13 @@ else()
 endif()
 message(STATUS "System: ${OS_NAME}")
 
-add_executable(ForceAllErrors
-    ForceAllErrors.cpp
+add_library(ForceAllErrors
+    ForceAllErrors.h
+    dummy.cpp
 
-    # LLVM source files to enable testing
+    # modified LLVM source files to enable testing
     llvm/Support/Error.h
     llvm/Support/ErrorOr.h
-
-    # LLVM source files for test
-    llvm/Object/Binary.h
-    llvm/Object/Binary.cpp
-    llvm/Support/MemoryBuffer.h
-    llvm/Support/MemoryBuffer.cpp
 )
 
 set_target_properties(ForceAllErrors PROPERTIES
@@ -43,25 +35,29 @@ set_target_properties(ForceAllErrors PROPERTIES
     CXX_EXTENSIONS OFF
 )
 
+message("")
+message("LLVM")
+
 # add LLVM libraries, set LLVM_* variables
 find_package(LLVM 4.0 REQUIRED PATHS ${LLVM_DIR})
 message(STATUS "LLVM_DIR: ${LLVM_DIR}")
 message(STATUS "LLVM_PACKAGE_VERSION: ${LLVM_PACKAGE_VERSION}")
 
 if(NOT LLVM_ENABLE_RTTI)
-    target_compile_options(ForceAllErrors PRIVATE ${DISABLE_RTTI_FLAG})
+    target_compile_options(ForceAllErrors PUBLIC ${DISABLE_RTTI_FLAG})
 endif()
 
 message(STATUS "LLVM Source Directory: ${LLVM_BUILD_MAIN_SRC_DIR}")
 message(STATUS "LLVM Build Directory: ${LLVM_BUILD_BINARY_DIR}")
 
-target_include_directories(ForceAllErrors PRIVATE
+target_include_directories(ForceAllErrors PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${LLVM_INCLUDE_DIRS}
 )
 
 # LLVM definitions
-target_compile_definitions(ForceAllErrors PRIVATE
+separate_arguments(LLVM_DEFINITIONS)
+target_compile_definitions(ForceAllErrors PUBLIC
     ${LLVM_DEFINITIONS}
 )
 
@@ -73,9 +69,13 @@ llvm_map_components_to_libnames(LLVM_LIBS
     x86codegen
 )
 
-target_link_libraries(ForceAllErrors PRIVATE
+target_link_libraries(ForceAllErrors INTERFACE
     ${LLVM_LIBS}
 )
+
+message("")
+message("GoogleTest")
+add_subdirectory(test)
 
 message("")
 message("ForceAllErrors")
