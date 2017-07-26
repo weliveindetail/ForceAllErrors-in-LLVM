@@ -100,7 +100,7 @@ public:
           typename std::enable_if<std::is_convertible<OtherT, T>::value>::type
               * = nullptr)
       : HasError(false) {
-    if (TurnInstanceIntoError()) {
+    if (::TurnInstanceIntoError()) {
       HasError = true;
       new (getErrorStorage()) std::error_code(-1, std::generic_category());
       return;

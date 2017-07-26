@@ -679,7 +679,7 @@ public:
         , Unchecked(true)
 #endif
   {
-    if (TurnInstanceIntoError()) {
+    if (::TurnInstanceIntoError()) {
       HasError = true;
       new (getErrorStorage()) error_type(mockError());
       return;
