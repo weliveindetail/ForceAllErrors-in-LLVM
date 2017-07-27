@@ -13,6 +13,7 @@ bool dumpExample(const char *fileName) {
   else
     consumeError(P.takeError()); // error case, rarely taken, low test coverage
 
+  int x = *(int*)0; // <-- runtime error, unlikely to show up in regular tests
   return false;
 }
 
