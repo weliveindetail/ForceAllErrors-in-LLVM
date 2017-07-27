@@ -13,6 +13,7 @@
 char *argv0; // for TestDumpExample
 
 #include "TestForceAllErrors.h"
+#include "TestDumpExample.h"
 #include "TestLLVMObject.h"
 
 int main(int argc, char **argv) {

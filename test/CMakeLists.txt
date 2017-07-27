@@ -11,6 +11,7 @@ add_executable(TestForceAllErrors
     TestDriver.cpp
 
     TestForceAllErrors.h
+    TestDumpExample.h
     TestLLVMObject.h
 
     # unmodified LLVM source files for test
@@ -19,6 +20,7 @@ add_executable(TestForceAllErrors
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachO.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/MachOUniversal.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/ObjectFile.h
+    ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Support/GlobPattern.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Support/MemoryBuffer.h
 
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/Archive.cpp
@@ -26,6 +28,7 @@ add_executable(TestForceAllErrors
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOObjectFile.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/MachOUniversal.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Object/ObjectFile.cpp
+    ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Support/GlobPattern.cpp
     ${LLVM_BUILD_MAIN_SRC_DIR}/lib/Support/MemoryBuffer.cpp
 )
 
