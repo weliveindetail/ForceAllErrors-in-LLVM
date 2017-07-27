@@ -51,8 +51,34 @@ TEST(ForceAllErrors, dumpExample)
 }
 ```
 
-Checkout the [demo-dumpExample](https://github.com/weliveindetail/ForceAllErrors-in-LLVM/commits/demo-dumpExample) 
-branch and see yourself!
+Checkout the [demo-dumpExample](https://github.com/weliveindetail/ForceAllErrors-in-LLVM/commits/demo-dumpExample) branch and see yourself!
+
+## Real-world Example
+
+You may think that the above example mostly indicates missing unit tests or insufficient test data. And that this can also be figured from test coverage reports easily. Right, that's why here comes the real-world example with real benefits.
+
+The test runs `llvm::object::createBinary()` and detects 44 different control paths that will all be executed one after the other. These cases can hardly be covered by a unit test altogether, because they don't depend on the single input to `creatBinary()` but rather on the environment the test runs in. Simulating this in a unit test would be a real challenge.
+
+```cpp
+TEST(LLVMObject, createBinary)
+{
+  using namespace llvm;
+  using namespace llvm::object;
+
+  auto test_createBinary = []() {
+    Expected<OwningBinary<Binary>> bin = createBinary(argv0);
+    if (!bin)
+      consumeError(bin.takeError());
+  };
+
+  int C = CountMutationPoints(test_createBinary);
+
+  EXPECT_EXIT(ForceAllErrors(C, test_createBinary),
+              ::testing::ExitedWithCode(0), "");
+}
+```
+
+Checkout the [demo-MachOObjectFile-release_40](https://github.com/weliveindetail/ForceAllErrors-in-LLVM/commits/demo-MachOObjectFile-release_40) branch. It has a copy of `MachOObjectFile.cpp` from its `release_40` original with [2 runtime errors inserted in error paths](https://github.com/weliveindetail/ForceAllErrors-in-LLVM/commit/ac96849de1ba5c9b88f1fceb87dbf6b3aa8fcd1b). You can watch it detect the issues!
 
 ## Build
 ```
