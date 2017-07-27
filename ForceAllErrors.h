@@ -1,3 +1,5 @@
+#pragma once
+
 // Include modified error headers first, so we never get the original ones
 #include <llvm/Support/Error.h>
 #include <llvm/Support/ErrorOr.h>

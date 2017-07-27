@@ -10,52 +10,10 @@
 
 #include <gtest/gtest.h>
 
-#include <memory>
-#include <string>
+char *argv0; // for TestDumpExample
 
-// ----------------------------------------------------------------------------
-
-TEST(ForceAllErrors, uncheckedFails)
-{
-#if !GTEST_OS_WINDOWS
-  using namespace llvm;
-
-  auto test_uncheckedSuccess = []() { Expected<int> I(3); };
-  EXPECT_EXIT(test_uncheckedSuccess(),
-              ::testing::KilledBySignal(SIGABRT), "");
-
-  auto test_uncheckedError = []() { Expected<int> I(mockError()); };
-  EXPECT_EXIT(test_uncheckedError(),
-              ::testing::KilledBySignal(SIGABRT), "");
-#endif
-}
-
-// ----------------------------------------------------------------------------
-
-#include <llvm/Object/Binary.h>
-const char *argv0;
-
-TEST(LLVMObject, createBinary)
-{
-  using namespace llvm;
-  using namespace llvm::object;
-
-  auto test_createBinary = []() {
-    Expected<OwningBinary<Binary>> bin = createBinary(argv0);
-    if (!bin)
-      consumeError(bin.takeError());
-  };
-
-  int C = CountMutationPoints(test_createBinary);
-
-  // uncomment to debug
-  //ForceAllErrors(C, test_createBinary);
-
-  EXPECT_EXIT(ForceAllErrors(C, test_createBinary),
-              ::testing::ExitedWithCode(0), "");
-}
-
-// ----------------------------------------------------------------------------
+#include "TestForceAllErrors.h"
+#include "TestLLVMObject.h"
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
@@ -65,7 +23,7 @@ int main(int argc, char **argv) {
   llvm::PrettyStackTraceProgram X(argc, argv);
 
   // Parse -debug and -debug-only options.
-  llvm::cl::ParseCommandLineOptions(argc, argv, "ForceAllErrors Driver\n");
+  llvm::cl::ParseCommandLineOptions(argc, argv, "ForceAllErrors TestDriver\n");
 
   argv0 = argv[0];
   int exitCode = RUN_ALL_TESTS();

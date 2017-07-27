@@ -10,6 +10,9 @@ enable_testing()
 add_executable(TestForceAllErrors
     TestDriver.cpp
 
+    TestForceAllErrors.h
+    TestLLVMObject.h
+
     # unmodified LLVM source files for test
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/Archive.h
     ${LLVM_BUILD_MAIN_SRC_DIR}/include/llvm/Object/Binary.h
